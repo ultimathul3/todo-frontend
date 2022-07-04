@@ -1,25 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView'
-import LoginView from '@/views/LoginView'
+import Home from '@/views/Home'
+import SignIn from '@/views/SignIn'
 import SignUp from '@/views/SignUp'
+import NotFound from '@/views/NotFound'
 
 
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: LoginView
+        component: Home
     },
     {
-        path: '/login',
-        name: 'login',
-        component: LoginView
+        path: '/signin',
+        name: 'signin',
+        component: SignIn
     },
     {
         path: '/signup',
         name: 'signup',
         component: SignUp
     },
+    {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: NotFound
+    }
 ]
 
 const router = createRouter({
