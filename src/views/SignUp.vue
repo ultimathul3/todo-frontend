@@ -4,11 +4,11 @@
             <h4>Регистрация аккаунта</h4>
         </div>
         <div class="row justify-content-md-center">
-            <div class="col-6 border rounded p-4">
+            <div class="col-5 border rounded p-4">
                 <ul class="list-group">
                     <li
                         v-for="(error, index) in errors" 
-                        v-bind:class="{'mb-3': index == errors.length-1}"
+                        :class="{'mb-3': index == errors.length-1}"
                         class="list-group-item list-group-item-danger">
                         {{ error }}
                     </li>
@@ -19,7 +19,7 @@
                         <input
                             v-model="username"
                             @input="usernameInvalid = false"
-                            v-bind:class="{'is-invalid': usernameInvalid}"
+                            :class="{'is-invalid': usernameInvalid}"
                             type="text" 
                             class="form-control" 
                             id="usernameInput">
@@ -32,7 +32,7 @@
                         <input
                             v-model="password"
                             @input="passwordInvalid = false"
-                            v-bind:class="{'is-invalid': passwordInvalid}"
+                            :class="{'is-invalid': passwordInvalid}"
                             type="password" 
                             class="form-control" 
                             id="passwordInput">
@@ -45,7 +45,7 @@
                         <input
                             v-model="password2"
                             @input="password2Invalid = false"
-                            v-bind:class="{'is-invalid': password2Invalid}" 
+                            :class="{'is-invalid': password2Invalid}" 
                             type="password" 
                             class="form-control" 
                             id="passwordInput2">

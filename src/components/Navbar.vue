@@ -44,23 +44,22 @@
 
 <script>
 import axios from 'axios'
+import storageMixin from '@/mixins/storageMixin'
 
 export default {
+    mixins: [
+        storageMixin
+    ],
+
     methods: {
-        getToken() {
-            return localStorage.getItem('token')
-        },
-        getUsername() {
-            return localStorage.getItem('username')
-        },
         async logout() {
             await axios.post(this.$store.state.serverUrl + 'logout/', {}, {
                 headers: {
                     'Authorization': 'Token ' + this.getToken()
                 }
             })
-            localStorage.removeItem('token')
-            localStorage.removeItem('username')
+            this.removeToken()
+            this.removeUsername()
             this.$router.push({ name: 'signin' })
         }
     }
