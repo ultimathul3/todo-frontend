@@ -161,7 +161,7 @@ export default {
 
         if (token === null) {
             this.$router.push({ name: 'signin' })
-            retun
+            return
         }
 
         this.getTodos()
