@@ -18,10 +18,6 @@ export default {
 
 
 <style>
-.no-focus {
-    outline: none;
-    box-shadow: none;
-}
 .pointer {
     cursor: pointer;
 }

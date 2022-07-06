@@ -1,9 +1,40 @@
 <template>
     <div>
+        <modal
+            @btnPressed="createTodo"
+            :id="'modal1'"
+            :title="'Добавление TODO'"
+            :buttonText="'Добавить'">
+            <ul class="list-group">
+                <li
+                    v-for="(error, index) in errors" 
+                    :class="{'mb-3': index == errors.length-1}"
+                    class="list-group-item list-group-item-danger">
+                    {{ error }}
+                </li>
+            </ul>
+            <input
+                v-model="name"
+                @input="nameInvalid = false"
+                :class="{'is-invalid': nameInvalid}"
+                type="text" 
+                class="form-control" 
+                placeholder="Название">
+            <div class="invalid-feedback">
+                Введите TODO
+            </div>
+        </modal>
+          
         <div class="container mt-4">
             <div class="row justify-content-center mb-4">
                 <div class="col-2">
-                    <button type="button" class="btn btn-success w-100">Добавить</button>
+                    <button 
+                        type="button"
+                        class="btn btn-success w-100"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal1">
+                        Добавить
+                    </button>
                 </div>
             </div>
 
@@ -26,6 +57,7 @@ import axios from 'axios'
 import storageMixin from '@/mixins/storageMixin'
 import Pagination from '@/components/Pagination'
 import TodoList from '@/components/TodoList'
+import Modal from '@/components/Modal'
 
 export default {
     mixins: [
@@ -34,7 +66,8 @@ export default {
 
     components: {
         Pagination,
-        TodoList
+        TodoList,
+        Modal
     },
 
     data() {
@@ -44,7 +77,10 @@ export default {
             next: null,
             previous: null,
             pages: 0,
-            currentPage: 1
+            currentPage: 1,
+            name: '',
+            nameInvalid: false,
+            errors: []
         }
     },
 
@@ -82,15 +118,39 @@ export default {
                     }
                 })
             } catch (error) {
-                console.log(error)
                 return
             }
 
             this.todos = this.todos.filter(t => t.id !== id)
-            if (this.todos.length === 0 && this.currentPage !== 0) {
+            if (this.todos.length === 0 && this.currentPage !== 1) {
                 this.currentPage--
             }
             this.getTodos()
+        },
+        
+        async createTodo() {
+            if (this.name === '') {
+                this.nameInvalid = true
+                return
+            }
+
+            try {
+                await axios.post(this.$store.state.serverUrl + `todos/`, {
+                    name: this.name
+                },
+                {
+                    headers: {
+                        'Authorization': 'Token ' + this.getToken()
+                    }
+                })
+            } catch (error) {
+                this.errors = error.response.data.name
+                return
+            }
+
+            this.getTodos()
+            this.name = ''
+            document.getElementById('modal-close-btn').click()
         }
     },
 

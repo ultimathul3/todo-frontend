@@ -30,6 +30,11 @@ export default {
 
 
 <style scoped>
+.no-focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .todo-list-item {
     display: inline-block;
     margin-right: 10px;
